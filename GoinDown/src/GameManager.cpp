@@ -60,7 +60,7 @@ void GameManager::HandleGameMenu() {
 
     // UI
     // Show title
-    DrawText("Goin' Down!", GetScreenWidth() /2 - 150, 20, 52, GOLD);
+    DrawText("Goin' Down!", GetScreenWidth() / 2 - 150, 20, 52, GOLD);
 
     // Show All time highscore
     DrawText("All Time Highscore: ", 50, GetScreenHeight() - 80, 42, WHITE);
@@ -139,7 +139,7 @@ void GameManager::HandleGameDead() {
     if (won) {
         DrawText("You won!", GetScreenWidth() / 2 - 200, GetScreenHeight() - 500, 42, WHITE);
     } else {
-        DrawText("You lost!", GetScreenWidth() / 2 - 200, GetScreenHeight() - 500, 42, WHITE);
+        DrawText("You died UNDER PRESSURE!", GetScreenWidth() / 2 - 200, GetScreenHeight() - 500, 42, RED);
     }
 
 
