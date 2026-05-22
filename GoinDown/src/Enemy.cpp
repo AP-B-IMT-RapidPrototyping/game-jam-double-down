@@ -4,10 +4,16 @@
 
 #include "Enemy.h"
 
+Enemy::Enemy(bool up, float vel): FloatingEntity(up, vel) {}
+
 void Enemy::Draw() {
     DrawRectangle(position.x, position.y, 50, 50, RED);
 }
 
 int Enemy::GetDamage() {
     return dmg;
+}
+
+Enemy::~Enemy() {
+
 }

@@ -4,10 +4,17 @@
 
 #include "FloatingEntity.h"
 
-FloatingEntity::FloatingEntity() {
+FloatingEntity::FloatingEntity(bool up, float vel) {
     //set random start position on x as
     position.x = GetRandomValue(0, GetScreenWidth() - size.x);
-    position.y = GetScreenHeight() + 50;
+    if (!up) {
+        position.y = -size.y;
+    } else {
+        position.y = (float)GetScreenHeight();
+    }
+
+    velocity = vel;
+    goingUp = up;
 }
 
 void FloatingEntity::Draw() {
@@ -31,6 +38,7 @@ Vector2 FloatingEntity::GetSize() {
 Rectangle FloatingEntity::GetCollision() {
     return Rectangle(position.x, position.y, size.x, size.y);
 }
+
 
 FloatingEntity::~FloatingEntity() {
 

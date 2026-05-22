@@ -5,7 +5,7 @@
 #include "raylib.h"
 
 
-#define WINDOW_WIDTH 1920
+#define WINDOW_WIDTH 1080
 #define WINDOW_HEIGHT 1080
 #define FPS 60
 
@@ -33,14 +33,17 @@ int main() {
             case GameManager::GameMenu:
                 GameManager::HandleGameMenu();
                 GameManager::HandleMenuInput();
+                //DrawText("MENU", 50, 50, 42, RED);
                 break;
 
             case GameManager::GameRun:
                 GameManager::HandleGameRun();
+                //DrawText("RUN", 50, 50, 42, RED);
                 break;
 
             case GameManager::GameDead:
                 GameManager::HandleGameDead();
+                //DrawText("DEAD", 50, 50, 42, RED);
                 break;
         }
 

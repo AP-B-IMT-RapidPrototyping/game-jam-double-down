@@ -7,19 +7,24 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <bits/parse_numbers.h>
 
 #include "Bubble.h"
 #include "Enemy.h"
+#include "ExplodingEnemy.h"
 #include "PressureBar.h"
 #include "raylib.h"
 #include  "Player.h"
 #include "ScoreManager.h"
+#include "FloatingEntity.h"
 
 #define FONTHEADER 42
 #define FONTDEFAULT 36
 
 //Ptrs
 std::vector<std::unique_ptr<Bubble> > bubbles;
+std::vector<std::unique_ptr<Enemy> > enemies;
+std::vector<std::unique_ptr<ExplodingEnemy> > explodingEnemies;
 std::unique_ptr<Player> player;
 std::unique_ptr<PressureBar> pressureBar;
 std::unique_ptr<ScoreManager> scoreManager;
@@ -36,7 +41,14 @@ void GameManager::Init() {
 
 //COUNTER
 int spawnCounter = 0;
+int bubbleSpawnCounter = 0;
 int pressureCounter = 0;
+int difficultyCounter = 0;
+int enemySpawnTime = 100;
+int endCounter = 0;
+
+
+bool isGoingDown = true;
 
 // Handle Game States
 void GameManager::HandleGameMenu() {
@@ -71,12 +83,31 @@ void GameManager::HandleGameRun() {
     //manage bubbles
     ManageBubbles();
 
+    //manage enemies
+    ManageEnemies();
+    ManageExplodingEnemies();
+
     //draw pressure bar
     pressureBar->Draw();
 
     // Handle score
     scoreManager->DrawScore();
     scoreManager->UpdateScore();
+
+    if (IsKeyPressed(KEY_SPACE)) {
+        isGoingDown = false;
+        for (unsigned int i = 0; i < enemies.size(); i++) {
+            enemies[i]->velocity = 8;
+        }
+        for (unsigned int i = 0; i < explodingEnemies.size(); i++) {
+            explodingEnemies[i]->velocity = 8;
+        }
+
+        for (unsigned int i = 0; i < bubbles.size(); i++) {
+            bubbles[i]->velocity = 8;
+        }
+
+    }
 }
 
 void GameManager::HandleGameDead() {
@@ -105,6 +136,7 @@ void GameManager::HandleMenuInput() {
         if (currentMainMenuOption == SelectQuit) {
             isGameRunning = false;
         }
+
     }
 }
 
@@ -123,6 +155,34 @@ void GameManager::ManageBubbles() {
     });
 }
 
+void GameManager::ManageEnemies() {
+    for (unsigned int i = 0; i < enemies.size(); i++) {
+        enemies[i]->Update();
+        enemies[i]->Draw();
+        enemies[i]->toDelete = CheckOffScreen(enemies[i]->GetPos(), enemies[i]->GetSize());
+        CheckEnemyCollision(i);
+    }
+
+    //check if delete
+    std::erase_if(enemies, [](const std::unique_ptr<Enemy> &enemy) {
+        return enemy->toDelete;
+    });
+}
+
+void GameManager::ManageExplodingEnemies() {
+    for (unsigned int i = 0; i < explodingEnemies.size(); i++) {
+        explodingEnemies[i]->Update();
+        explodingEnemies[i]->Draw();
+        explodingEnemies[i]->toDelete = CheckOffScreen(explodingEnemies[i]->GetPos(), explodingEnemies[i]->GetSize());
+        CheckExplodingEnemyCollision(i);
+    }
+
+    //check if delete
+    std::erase_if(explodingEnemies, [](const std::unique_ptr<ExplodingEnemy> &enemy) {
+        return enemy->toDelete;
+    });
+}
+
 void GameManager::UpdatePressure() {
     pressureCounter++;
     if (pressureCounter > 100) {
@@ -135,17 +195,45 @@ void GameManager::UpdatePressure() {
     }
 }
 
-//SPAWING
+//SPAWNING
 void GameManager::SpawnEntity() {
     spawnCounter++;
-    if (spawnCounter > 200) {
+    if (spawnCounter > enemySpawnTime) {
         spawnCounter = 0;
-        //spawn bubble
-        bubbles.emplace_back(std::make_unique<Bubble>());
+
+        int entityToSpawn = GetRandomValue(1,3);
+        if (entityToSpawn == 1 || entityToSpawn == 2) {
+            if (isGoingDown) {
+                enemies.emplace_back(std::make_unique<Enemy>(true, -5));
+            } else {
+                enemies.emplace_back(std::make_unique<Enemy>(false, 8));
+            }
+        } else {
+            if (isGoingDown) {
+                explodingEnemies.emplace_back(std::make_unique<ExplodingEnemy>(true, -5));
+            } else {
+                explodingEnemies.emplace_back(std::make_unique<ExplodingEnemy>(false, 8));
+            }
+        }
+    }
+
+    if (isGoingDown) {
+        bubbleSpawnCounter++;
+        if (bubbleSpawnCounter > 200) {
+            bubbleSpawnCounter = 0;
+            bubbles.emplace_back(std::make_unique<Bubble>(true, -5));
+        }
+    }
+
+
+    difficultyCounter++;
+    if (difficultyCounter > 500) {
+        difficultyCounter = 0;
+        enemySpawnTime -= 10;
     }
 }
 
-//DESPAWING
+//DESPAWNING
 bool GameManager::CheckOffScreen(Vector2 pos, Vector2 size) {
     int despawnMargin = 50;
     if (pos.y + despawnMargin < 0 || pos.y - despawnMargin > GetScreenHeight()) {
@@ -165,6 +253,40 @@ void GameManager::CheckBubbleCollision(int i) {
         bubbles[i]->toDelete = true;
         pressureBar->ChangePressure(-20);
     }
+}
 
-    // Enemy Collision
+// Enemy Collision
+void GameManager::CheckEnemyCollision(int i) {
+    // Check collision with Player
+    if (CheckCollisionRecs(enemies[i]->GetCollision(), player->GetCollision())) {
+        enemies[i]->toDelete = true;
+        player->TakeDamage(enemies[i]->GetDamage());
+
+
+        if (player->GetHealth() <= 0) {
+            currentGameState = GameDead;
+        }
+    }
+}
+
+// Exploding enemy Collision
+void GameManager::CheckExplodingEnemyCollision(int i) {
+    // Check collision with Player
+
+    //check explosion state
+    if (explodingEnemies[i]->GetExplosionState() == -1) { //enemy not exploding
+        //check if the player collides with inner collision shape
+        if (CheckCollisionRecs(explodingEnemies[i]->GetInnerCollision(), player->GetCollision())) {
+            //if player collides, start exploding
+            explodingEnemies[i]->isExploding = true;
+        }
+    } else if (explodingEnemies[i]->GetExplosionState() == 1) { //enemy exploded
+        //check if the player collides with outer collision shape
+        if (CheckCollisionRecs(explodingEnemies[i]->GetOuterCollision(), player->GetCollision())) {
+            //if player collides, player takes damage
+            player->TakeDamage(2);
+        }
+
+        explodingEnemies[i]->toDelete = true;
+    }
 }

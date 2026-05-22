@@ -47,6 +47,8 @@ public:
 
     //UPDATES
     static void ManageBubbles();
+    static void ManageEnemies();
+    static void ManageExplodingEnemies();
 
     static void UpdatePressure();
 
@@ -56,6 +58,10 @@ public:
     static void SpawnEntity();
 
     static void CheckBubbleCollision(int i);
+    static void CheckEnemyCollision(int i);
+    static void CheckExplodingEnemyCollision(int i);
+
+
 
     //DESPAWNING
     static bool CheckOffScreen(Vector2 pos, Vector2 size);
