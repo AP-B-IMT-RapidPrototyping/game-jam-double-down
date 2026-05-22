@@ -12,7 +12,13 @@ add_library(srclib
         Held.cpp
         GameManager.cpp
         GameManager.h
-)
+        Held.cpp
+        FloatingEntity.cpp
+        FloatingEntity.h
+        Bubble.cpp
+        Bubble.h
+        Enemy.cpp
+        Enemy.h)
 
 
 target_include_directories(srclib PUBLIC .)
