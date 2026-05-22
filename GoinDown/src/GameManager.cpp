@@ -109,6 +109,8 @@ void GameManager::HandleGameRun() {
     }
 
     EndTimerUpdate();
+
+    DrawText("Space to go back up", GetScreenWidth() / 2 - 200, GetScreenHeight() - 50, 42, WHITE);
 }
 
 void GameManager::HandleGameDead() {
