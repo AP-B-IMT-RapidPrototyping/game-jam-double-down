@@ -59,7 +59,6 @@ void GameManager::HandleGameRun() {
 
     //manage bubbles
     ManageBubbles();
-    //collision
 
     //draw pressure bar
     pressureBar->Draw();
@@ -99,6 +98,7 @@ void GameManager::ManageBubbles() {
         bubbles[i]->Update();
         bubbles[i]->Draw();
         bubbles[i]->toDelete = CheckOffScreen(bubbles[i]->GetPos(), bubbles[i]->GetSize());
+        CheckBubbleCollision(i);
     }
 
     //check if delete
@@ -145,9 +145,10 @@ bool GameManager::CheckOffScreen(Vector2 pos, Vector2 size) {
 // Bubble Collision
 void GameManager::CheckBubbleCollision(int i) {
     // Check collision with Player
-    //if (CheckCollisionRecs(bubbles[i]->GetCollision(), player->GetCollision())) {
-
-    //}
+    if (CheckCollisionRecs(bubbles[i]->GetCollision(), player->GetCollision())) {
+        bubbles[i]->toDelete = true;
+        pressureBar->ChangePressure(-20);
+    }
 
     // Enemy Collision
 }

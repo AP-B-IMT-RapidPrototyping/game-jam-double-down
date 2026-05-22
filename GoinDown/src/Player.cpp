@@ -31,7 +31,7 @@ void Player::DrawHitbox() {
 // Collision
 Rectangle Player::GetCollision() const {
     // plz use texture.width and height instead of size.x and .y
-    return Rectangle(position.x, position.y, size.x, size.y);
+    return Rectangle(position.x, position.y + positionYOffset, size.x, size.y);
 }
 
 
