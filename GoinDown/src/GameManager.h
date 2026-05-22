@@ -3,10 +3,10 @@
 //
 
 #pragma once
+#include "raylib.h"
 
 class GameManager {
 private:
-
 
 public:
     // Not So Beloved Constructor
@@ -45,10 +45,18 @@ public:
     // Handle Menu
     static void HandleMenuInput();
 
+    //UPDATES
+    static void ManageBubbles();
+
+    static void UpdatePressure();
 
     // COLLISION CHECKS
+
     // SPAWING
     static void SpawnEntity();
 
     static void CheckBubbleCollision(int i);
+
+    //DESPAWNING
+    static bool CheckOffScreen(Vector2 pos, Vector2 size);
 };

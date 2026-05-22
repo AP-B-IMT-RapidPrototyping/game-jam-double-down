@@ -4,11 +4,13 @@
 
 #include "GameManager.h"
 
+#include <iostream>
 #include <memory>
 #include <vector>
 
 #include "Bubble.h"
 #include "Enemy.h"
+#include "PressureBar.h"
 #include "raylib.h"
 #include  "Player.h"
 
@@ -24,7 +26,14 @@ std::unique_ptr<Player> player;
 void GameManager::Init() {
     player = std::make_unique<Player>();
 }
+//PTRS
+std::unique_ptr<PressureBar> pressureBar = std::make_unique<PressureBar>();
+std::vector<std::unique_ptr<Bubble>> bubbles;
 
+
+//COUNTER
+int spawnCounter = 0;
+int pressureCounter = 0;
 
 // Handle Game States
 void GameManager::HandleGameMenu() {
@@ -43,10 +52,16 @@ void GameManager::HandleGameMenu() {
 void GameManager::HandleGameRun() {
     //update
     player->Run();
+    //update counters
+    SpawnEntity();
+    UpdatePressure();
 
+    //manage bubbles
+    ManageBubbles();
     //collision
 
-    //draw;
+    //draw pressure bar
+    pressureBar->Draw();
 }
 
 void GameManager::HandleGameDead() {
@@ -74,6 +89,52 @@ void GameManager::HandleMenuInput() {
         if (currentMainMenuOption == SelectQuit) {
             isGameRunning = false;
         }
+    }
+}
+
+//UPDATES
+void GameManager::ManageBubbles() {
+    for (unsigned int i = 0; i < bubbles.size(); i++) {
+        bubbles[i]->Update();
+        bubbles[i]->Draw();
+        bubbles[i]->toDelete = CheckOffScreen(bubbles[i]->GetPos(), bubbles[i]->GetSize());
+    }
+
+    //check if delete
+    std::erase_if(bubbles, [](const std::unique_ptr<Bubble> &bubble) {
+        return bubble->toDelete;
+    });
+}
+
+void GameManager::UpdatePressure() {
+    pressureCounter++;
+    if (pressureCounter > 100) {
+        pressureBar->ChangePressure(10);
+        pressureCounter = 0;
+
+        if (pressureBar->GetPressure() > 190) {
+            currentGameState = GameDead;
+        }
+    }
+}
+
+//SPAWING
+void GameManager::SpawnEntity() {
+    spawnCounter++;
+    if (spawnCounter > 200) {
+        spawnCounter = 0;
+        //spawn bubble
+        bubbles.emplace_back(std::make_unique<Bubble>());
+    }
+}
+
+//DESPAWING
+bool GameManager::CheckOffScreen(Vector2 pos, Vector2 size) {
+    int despawnMargin = 50;
+    if (pos.y + despawnMargin < 0 || pos.y - despawnMargin > GetScreenHeight()) {
+        return true;
+    } else {
+        return false;
     }
 }
 
