@@ -20,15 +20,15 @@ std::vector<std::unique_ptr<Bubble> > bubbles;
 
 // Handle Game States
 void GameManager::HandleGameMenu() {
-    Color playBtnColor = (currentGameState == SelectPlay) ? GOLD : BLACK;
-    Color quitBtnColor = (currentGameState == SelectQuit) ? GOLD : BLACK;
+    Color playBtnColor = (currentMainMenuOption == SelectPlay) ? GOLD : BLACK;
+    Color quitBtnColor = (currentMainMenuOption == SelectQuit) ? GOLD : BLACK;
 
     const char *playBtnStr = "Play";
-    float playBtnWidth = MeasureText(playBtnStr, FONTDEFAULT);
+    int playBtnWidth = MeasureText(playBtnStr, FONTDEFAULT);
     DrawText(playBtnStr, GetScreenWidth() / 2 - playBtnWidth, GetScreenHeight() / 2 - 100, FONTDEFAULT, playBtnColor);
 
     const char *quitBtnStr = "Quit";
-    float quitBtnWidth = MeasureText(quitBtnStr, FONTDEFAULT);
+    int quitBtnWidth = MeasureText(quitBtnStr, FONTDEFAULT);
     DrawText(quitBtnStr, GetScreenWidth() / 2 - quitBtnWidth, GetScreenHeight() / 2 + 100, FONTDEFAULT, quitBtnColor);
 }
 
@@ -37,7 +37,7 @@ void GameManager::HandleGameRun() {
 
     //collision
 
-    //draw
+    //draw;
 }
 
 void GameManager::HandleGameDead() {
@@ -47,32 +47,36 @@ void GameManager::HandleGameDead() {
 // Handle Menu
 void GameManager::HandleMenuInput() {
     if (IsKeyPressed(KEY_DOWN)) {
-        if (mainMenuOption == SelectPlay) {
-            mainMenuOption = SelectQuit;
+        if (currentMainMenuOption == SelectPlay) {
+            currentMainMenuOption = SelectQuit;
         }
     }
 
     if (IsKeyPressed(KEY_UP)) {
-        if (mainMenuOption == SelectQuit) {
-            mainMenuOption = SelectPlay;
+        if (currentMainMenuOption == SelectQuit) {
+            currentMainMenuOption = SelectPlay;
         }
     }
 
     if (IsKeyPressed(KEY_ENTER)) {
-        if (mainMenuOption == SelectPlay) {
+        if (currentMainMenuOption == SelectPlay) {
             currentGameState = GameRun;
         }
-        if (mainMenuOption == SelectQuit) {
+        if (currentMainMenuOption == SelectQuit) {
             isGameRunning = false;
         }
     }
 }
 
 
-// Handle Collision
-void GameManager::CheckFloatingEntityCollision() {
-    // Check collision with Deadzones
+// HANDLE COLLISIONS
 
-
+// Bubble Collision
+void GameManager::CheckBubbleCollision(int i) {
     // Check collision with Player
+    //if (CheckCollisionRecs(bubbles[i]->GetCollision(), player->GetCollision())) {
+
+    //}
+
+    // Enemy Collision
 }

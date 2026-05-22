@@ -10,8 +10,8 @@
 
 
 bool GameManager::isGameRunning = true;
-GameManager::GameState GameManager::currentGameState = GameManager::GameMenu; // OVERWRITE ME
-GameManager::MainMenuOptions GameManager::mainMenuOption = GameManager::SelectPlay;
+GameManager::GameState GameManager::currentGameState = GameManager::GameMenu;
+GameManager::MainMenuOptions GameManager::currentMainMenuOption = GameManager::SelectPlay;
 
 int main() {
     std::cout << "Hello, World!" << std::endl;

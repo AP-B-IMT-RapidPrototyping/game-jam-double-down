@@ -27,7 +27,7 @@ public:
         SelectQuit
     };
 
-    static MainMenuOptions mainMenuOption;
+    static MainMenuOptions currentMainMenuOption;
 
 
     // STATES FUNCTIONS
@@ -45,5 +45,6 @@ public:
     // COLLISION CHECKS
     // SPAWING
     static void SpawnEntity();
-    static void CheckFloatingEntityCollision();
+
+    static void CheckBubbleCollision(int i);
 };
