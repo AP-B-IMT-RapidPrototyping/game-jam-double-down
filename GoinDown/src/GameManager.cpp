@@ -65,6 +65,8 @@ void GameManager::HandleGameMenu() {
     DrawText("Use arrow keys to navigate menu", GetScreenWidth() /2 - 200, GetScreenHeight() / 2 - 150, 42, WHITE);
 
 
+    DrawText("Enter to select", GetScreenWidth() / 2 - 200, GetScreenHeight() / 2 - 200, 42, WHITE);
+
     const char *playBtnStr = "Play";
     int playBtnWidth = MeasureText(playBtnStr, 36);
     DrawText(playBtnStr, GetScreenWidth() / 2 - playBtnWidth, GetScreenHeight() / 2 - 100, 36, playBtnColor);
