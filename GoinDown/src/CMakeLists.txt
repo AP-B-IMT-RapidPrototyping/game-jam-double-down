@@ -9,10 +9,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 
 add_library(srclib
-        Held.cpp
         GameManager.cpp
         GameManager.h
-        Held.cpp
         FloatingEntity.cpp
         FloatingEntity.h
         Bubble.cpp
