@@ -1,0 +1,20 @@
+Luigi
+
+- Player
+- Scoremanager (writing highscore to file)
+- Menu
+- Game states
+
+
+Lani
+
+- Floating entity
+- Bubble
+- Enemy
+- Exploding enemy
+- Pressure bar
+- Tests
+
+
+Both:
+- Gamemanager
