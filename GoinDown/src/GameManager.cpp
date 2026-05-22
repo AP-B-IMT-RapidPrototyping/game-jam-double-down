@@ -61,6 +61,8 @@ void GameManager::HandleGameMenu() {
     Color playBtnColor = (currentMainMenuOption == SelectPlay) ? GOLD : BLACK;
     Color quitBtnColor = (currentMainMenuOption == SelectQuit) ? GOLD : BLACK;
 
+    DrawText("Enter to select", GetScreenWidth() / 2 - 200, GetScreenHeight() / 2 - 200, 42, WHITE);
+
     const char *playBtnStr = "Play";
     int playBtnWidth = MeasureText(playBtnStr, 36);
     DrawText(playBtnStr, GetScreenWidth() / 2 - playBtnWidth, GetScreenHeight() / 2 - 100, 36, playBtnColor);
