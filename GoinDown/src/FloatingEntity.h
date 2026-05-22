@@ -6,7 +6,7 @@ class FloatingEntity {
 protected:
     Vector2 position = {200, (float)GetScreenHeight()};
     Vector2 size = {50, 50};
-    float velocity = -2;
+    float velocity = -5;
 public:
     bool toDelete = false;
 

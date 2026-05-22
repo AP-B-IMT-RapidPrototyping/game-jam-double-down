@@ -7,6 +7,7 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <bits/parse_numbers.h>
 
 #include "Bubble.h"
 #include "Enemy.h"
@@ -37,6 +38,7 @@ void GameManager::Init() {
 
 //COUNTER
 int spawnCounter = 0;
+int bubbleSpawnCounter = 0;
 int pressureCounter = 0;
 
 // Handle Game States
@@ -154,18 +156,28 @@ void GameManager::UpdatePressure() {
     }
 }
 
-//SPAWING
+//SPAWNING
 void GameManager::SpawnEntity() {
     spawnCounter++;
-    if (spawnCounter > 200) {
+    if (spawnCounter > 75) {
         spawnCounter = 0;
-        //spawn bubble
+
+        int entityToSpawn = GetRandomValue(1,3);
+        if (entityToSpawn == 1 || entityToSpawn == 2) {
+            enemies.emplace_back(std::make_unique<Enemy>());
+        } else {
+            explodingEnemies.emplace_back(std::make_unique<ExplodingEnemy>());
+        }
+    }
+
+    bubbleSpawnCounter++;
+    if (bubbleSpawnCounter > 200) {
+        bubbleSpawnCounter = 0;
         bubbles.emplace_back(std::make_unique<Bubble>());
-        explodingEnemies.emplace_back(std::make_unique<ExplodingEnemy>());
     }
 }
 
-//DESPAWING
+//DESPAWNING
 bool GameManager::CheckOffScreen(Vector2 pos, Vector2 size) {
     int despawnMargin = 50;
     if (pos.y + despawnMargin < 0 || pos.y - despawnMargin > GetScreenHeight()) {

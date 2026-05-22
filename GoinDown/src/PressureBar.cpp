@@ -7,7 +7,7 @@
 
 PressureBar::PressureBar() {
     size = {200, 50};
-    pos = {1680, 40};
+    pos = {(float)GetScreenWidth() - size.x - 40, 40};
 }
 
 PressureBar::~PressureBar() {
