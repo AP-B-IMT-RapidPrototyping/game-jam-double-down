@@ -16,11 +16,15 @@ private:
     Vector2 size = {50, 100}; // THIS SHOULD BE REMOVED WHEN TEXTURE IS AVAILABLE
 
     Vector2 position = {(float) GetScreenWidth() / 2, (float) GetScreenHeight() / 2};
-    float positionYOffset = 150;
+    float positionYOffset = -250;
 
     float hitboxOffset = 10; // Make hitbox smaller than player (higher = easier)
 
-    float moveVelocity = 10;
+    bool isMoving = false;
+    float moveAcceleration = 0.5;
+    float deceleration = 1;
+    float moveMaxSpeed = 5;
+    float velocity = 0;
 
     int maxHealth = 3;
     int health = maxHealth;
