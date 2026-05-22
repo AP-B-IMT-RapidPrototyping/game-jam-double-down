@@ -9,7 +9,10 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 
 add_library(srclib
-        Held.cpp)
+        Held.cpp
+        GameManager.cpp
+        GameManager.h
+)
 
 
 target_include_directories(srclib PUBLIC .)

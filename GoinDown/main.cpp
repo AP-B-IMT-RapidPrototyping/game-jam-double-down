@@ -1,4 +1,6 @@
 #include <iostream>
+
+#include "GameManager.h"
 #include "raylib.h"
 
 
@@ -7,17 +9,35 @@
 #define FPS 60
 
 
+bool GameManager::isGameRunning = true;
+GameManager::GameState GameManager::currentGameState = GameManager::GameMenu;
+GameManager::MainMenuOptions GameManager::mainMenuOption = GameManager::SelectPlay;
+
 int main() {
     std::cout << "Hello, World!" << std::endl;
 
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Goin' Down");
     SetTargetFPS(FPS);
 
-    while (!WindowShouldClose()) {
+    while (!WindowShouldClose() && GameManager::isGameRunning) {
         BeginDrawing();
         ClearBackground(DARKBLUE);
 
-        // Hey :)
+        // GAME STATE MACHINE
+        switch (GameManager::currentGameState) {
+            case GameManager::GameMenu:
+                GameManager::HandleGameMenu();
+                GameManager::HandleMenuInput();
+                break;
+
+            case GameManager::GameRun:
+                GameManager::HandleGameRun();
+                break;
+
+            case GameManager::GameDead:
+                GameManager::HandleGameDead();
+                break;
+        }
 
         EndDrawing();
     }
