@@ -59,7 +59,7 @@ void GameManager::HandleGameMenu() {
     }
 
     DrawText("Previous Highscore: ", 50, 50, 42, WHITE);
-    DrawText(std::to_string(scoreManager->GetScore()).c_str(), 500, 50, 42, WHITE);
+    DrawText(std::to_string(scoreManager->GetHighscore()).c_str(), 500, 50, 42, WHITE);
 
     Color playBtnColor = (currentMainMenuOption == SelectPlay) ? GOLD : BLACK;
     Color quitBtnColor = (currentMainMenuOption == SelectQuit) ? GOLD : BLACK;
@@ -106,13 +106,18 @@ void GameManager::HandleGameRun() {
         for (unsigned int i = 0; i < bubbles.size(); i++) {
             bubbles[i]->velocity = 8;
         }
-
     }
 }
 
 void GameManager::HandleGameDead() {
     scoreManager->UpdateHighscoreToFile();
     scoreManager->ResetScoreAndUpdateHighscore();
+    player->ResetHealth();
+
+    DrawText("Space to retry!", GetScreenWidth() / 2 - 200, GetScreenHeight() - 150, 42, WHITE);
+    if (IsKeyPressed(KEY_SPACE)) {
+        currentGameState = GameRun;
+    }
 }
 
 // Handle Menu
@@ -136,7 +141,6 @@ void GameManager::HandleMenuInput() {
         if (currentMainMenuOption == SelectQuit) {
             isGameRunning = false;
         }
-
     }
 }
 
@@ -201,7 +205,7 @@ void GameManager::SpawnEntity() {
     if (spawnCounter > enemySpawnTime) {
         spawnCounter = 0;
 
-        int entityToSpawn = GetRandomValue(1,3);
+        int entityToSpawn = GetRandomValue(1, 3);
         if (entityToSpawn == 1 || entityToSpawn == 2) {
             if (isGoingDown) {
                 enemies.emplace_back(std::make_unique<Enemy>(true, -5));
@@ -274,13 +278,15 @@ void GameManager::CheckExplodingEnemyCollision(int i) {
     // Check collision with Player
 
     //check explosion state
-    if (explodingEnemies[i]->GetExplosionState() == -1) { //enemy not exploding
+    if (explodingEnemies[i]->GetExplosionState() == -1) {
+        //enemy not exploding
         //check if the player collides with inner collision shape
         if (CheckCollisionRecs(explodingEnemies[i]->GetInnerCollision(), player->GetCollision())) {
             //if player collides, start exploding
             explodingEnemies[i]->isExploding = true;
         }
-    } else if (explodingEnemies[i]->GetExplosionState() == 1) { //enemy exploded
+    } else if (explodingEnemies[i]->GetExplosionState() == 1) {
+        //enemy exploded
         //check if the player collides with outer collision shape
         if (CheckCollisionRecs(explodingEnemies[i]->GetOuterCollision(), player->GetCollision())) {
             //if player collides, player takes damage

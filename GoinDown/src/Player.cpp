@@ -92,6 +92,12 @@ void Player::TakeDamage(int amount) {
     health -= amount;
 }
 
+void Player::ResetHealth() {
+    health = maxHealth;
+}
+
 int Player::GetHealth() {
     return health;
 }
+
+

@@ -22,7 +22,7 @@ public:
     void DrawScore();
 
 
-    int GetScore();
+    int GetHighscore();
 
     void UpdateScore();
 

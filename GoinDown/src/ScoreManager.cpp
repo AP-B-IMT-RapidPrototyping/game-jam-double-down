@@ -14,8 +14,8 @@ void ScoreManager::DrawScore() {
 }
 
 
-int ScoreManager::GetScore() {
-    return score;
+int ScoreManager::GetHighscore() {
+    return highscore;
 }
 
 

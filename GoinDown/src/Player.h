@@ -56,4 +56,6 @@ public:
 
     // Takers
     void TakeDamage(int amount);
+
+    void ResetHealth();
 };
