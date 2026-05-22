@@ -20,7 +20,10 @@ add_library(srclib
         Enemy.cpp
         Enemy.h
         Player.cpp
-        Player.h)
+        Player.h
+        Enemy.h
+        PressureBar.cpp
+        PressureBar.h)
 
 
 target_include_directories(srclib PUBLIC .)

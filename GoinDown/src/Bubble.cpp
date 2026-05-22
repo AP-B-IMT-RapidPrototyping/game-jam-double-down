@@ -5,5 +5,5 @@
 #include "Bubble.h"
 
 void Bubble::Draw() {
-    DrawRectangle(position.x, position.y, 50, 50, BLUE);
+    DrawRectangle(position.x, position.y, size.x, size.y, BLUE);
 }

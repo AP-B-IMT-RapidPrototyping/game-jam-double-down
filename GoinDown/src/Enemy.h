@@ -1,9 +1,5 @@
-//
-// Created by laniv on 5/22/2026.
-//
+#pragma once
 
-#ifndef GOINDOWN_ENEMY_H
-#define GOINDOWN_ENEMY_H
 #include "FloatingEntity.h"
 
 
@@ -16,4 +12,3 @@ public:
 };
 
 
-#endif //GOINDOWN_ENEMY_H

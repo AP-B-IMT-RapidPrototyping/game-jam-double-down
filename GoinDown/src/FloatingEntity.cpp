@@ -24,6 +24,10 @@ Vector2 FloatingEntity::GetPos() {
     return position;
 }
 
+Vector2 FloatingEntity::GetSize() {
+    return size;
+}
+
 Rectangle FloatingEntity::GetCollision() {
     return Rectangle(position.x, position.y, size.x, size.y);
 }

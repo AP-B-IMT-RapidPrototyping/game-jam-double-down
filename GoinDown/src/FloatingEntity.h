@@ -5,17 +5,19 @@
 class FloatingEntity {
 protected:
     Vector2 position = {200, (float)GetScreenHeight()};
-private:
     Vector2 size = {50, 50};
+private:
     float velocity = -5;
-    bool toDelete = false;
 public:
+    bool toDelete = false;
+
     FloatingEntity();
     ~FloatingEntity();
 
     void Update();
     virtual void Draw();
     Vector2 GetPos();
+    Vector2 GetSize();
     Rectangle GetCollision();
 };
 
