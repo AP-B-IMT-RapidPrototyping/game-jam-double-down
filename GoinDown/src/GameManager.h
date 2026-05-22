@@ -52,7 +52,7 @@ public:
 
     // COLLISION CHECKS
 
-    // SPAWING
+    // SPAWNING
     static void SpawnEntity();
 
     static void CheckBubbleCollision(int i);

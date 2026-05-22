@@ -23,7 +23,9 @@ add_library(srclib
         Player.h
         Enemy.h
         PressureBar.cpp
-        PressureBar.h)
+        PressureBar.h
+        ScoreManager.cpp
+        ScoreManager.h)
 
 
 target_include_directories(srclib PUBLIC .)

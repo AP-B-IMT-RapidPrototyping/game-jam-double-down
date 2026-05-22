@@ -13,6 +13,7 @@
 #include "PressureBar.h"
 #include "raylib.h"
 #include  "Player.h"
+#include "ScoreManager.h"
 
 #define FONTHEADER 42
 #define FONTDEFAULT 36
@@ -21,15 +22,16 @@
 std::vector<std::unique_ptr<Bubble> > bubbles;
 std::unique_ptr<Player> player;
 std::unique_ptr<PressureBar> pressureBar;
-
+std::unique_ptr<ScoreManager> scoreManager;
 
 // Init
 void GameManager::Init() {
     player = std::make_unique<Player>();
     pressureBar = std::make_unique<PressureBar>();
+    scoreManager = std::make_unique<ScoreManager>();
 }
-//PTRS
 
+//PTRS
 
 
 //COUNTER
@@ -38,6 +40,15 @@ int pressureCounter = 0;
 
 // Handle Game States
 void GameManager::HandleGameMenu() {
+    if (!scoreManager->updatedHighscoreFromFile) {
+        scoreManager->LoadHighscoreFromFile();
+        scoreManager->updatedHighscoreFromFile = true;
+        scoreManager->updatedHighscoreToFile = false;
+    }
+
+    DrawText("Previous Highscore: ", 50, 50, 42, WHITE);
+    DrawText(std::to_string(scoreManager->GetScore()).c_str(), 500, 50, 42, WHITE);
+
     Color playBtnColor = (currentMainMenuOption == SelectPlay) ? GOLD : BLACK;
     Color quitBtnColor = (currentMainMenuOption == SelectQuit) ? GOLD : BLACK;
 
@@ -62,10 +73,15 @@ void GameManager::HandleGameRun() {
 
     //draw pressure bar
     pressureBar->Draw();
+
+    // Handle score
+    scoreManager->DrawScore();
+    scoreManager->UpdateScore();
 }
 
 void GameManager::HandleGameDead() {
-    //reset
+    scoreManager->UpdateHighscoreToFile();
+    scoreManager->ResetScoreAndUpdateHighscore();
 }
 
 // Handle Menu
