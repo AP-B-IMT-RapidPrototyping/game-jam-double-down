@@ -7,9 +7,9 @@
 
 // Constructors
 Player::Player() {
-    //Image playerImg = LoadImage("../assets/Player.png");
-    //playerTexture = LoadTextureFromImage(playerImg);
-    //UnloadImage(playerImg);
+    Image playerImg = LoadImage("../assets/diver.png");
+    playerTexture = LoadTextureFromImage(playerImg);
+    UnloadImage(playerImg);
 
     Image healthImg = LoadImage("../assets/health.png");
     healthTexture = LoadTextureFromImage(healthImg);
@@ -17,19 +17,19 @@ Player::Player() {
 }
 
 Player::~Player() {
-    //UnloadTexture(playerTexture);
+    UnloadTexture(playerTexture);
     UnloadTexture(healthTexture);
 }
 
 
 // Graphics
 void Player::DrawPlayer() {
-    //DrawTexture(playerTexture, position.x, position.y + positionYOffset, WHITE);
+    DrawTexture(playerTexture, position.x, position.y + positionYOffset, WHITE);
 }
 
 void Player::DrawHitbox() {
     // plz use texture.width and height instead of size.x and .y
-    DrawRectangle(position.x, position.y + positionYOffset, size.x, size.y, GOLD);
+    DrawRectangle(position.x, position.y + positionYOffset, playerTexture.width, playerTexture.height, GOLD);
 }
 
 void Player::DrawHealth() {
@@ -48,7 +48,7 @@ void Player::DrawHealth() {
 // Collision
 Rectangle Player::GetCollision() const {
     // plz use texture.width and height instead of size.x and .y
-    return Rectangle(position.x, position.y + positionYOffset, size.x, size.y);
+    return Rectangle(position.x, position.y + positionYOffset, playerTexture.width, playerTexture.height);
 }
 
 
@@ -67,8 +67,8 @@ void Player::HandleMoveInput() {
         position.x = 0;
         velocity = 0;
     }
-    if (position.x + size.x > (float) GetScreenWidth()) {
-        position.x = (float) GetScreenWidth() - size.x;
+    if (position.x + playerTexture.width > (float) GetScreenWidth()) {
+        position.x = (float) GetScreenWidth() - playerTexture.width;
         velocity = 0;
     }
 
@@ -84,7 +84,7 @@ void Player::HandleMoveInput() {
 
 void Player::Run() {
     // Collision
-    DrawHitbox();
+    DrawPlayer();
     DrawHealth();
 
     // Update
