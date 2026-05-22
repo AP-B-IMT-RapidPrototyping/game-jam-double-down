@@ -11,6 +11,7 @@ class Player {
 private:
     // Graphics
     Texture playerTexture;
+    Texture healthTexture;
 
     // Player Properties
     Vector2 size = {50, 100}; // THIS SHOULD BE REMOVED WHEN TEXTURE IS AVAILABLE
@@ -29,7 +30,7 @@ private:
     int health = maxHealth;
 
 public:
-    // Beloved constructors
+    // Constructors
     Player();
 
     ~Player();

@@ -4,10 +4,8 @@
 
 #include "GameManager.h"
 
-#include <iostream>
 #include <memory>
 #include <vector>
-#include <bits/parse_numbers.h>
 
 #include "Bubble.h"
 #include "Enemy.h"
@@ -18,8 +16,6 @@
 #include "ScoreManager.h"
 #include "FloatingEntity.h"
 
-#define FONTHEADER 42
-#define FONTDEFAULT 36
 
 //Ptrs
 std::vector<std::unique_ptr<Bubble> > bubbles;
@@ -29,7 +25,7 @@ std::unique_ptr<Player> player;
 std::unique_ptr<PressureBar> pressureBar;
 std::unique_ptr<ScoreManager> scoreManager;
 
-// Init
+// Initializer
 void GameManager::Init() {
     player = std::make_unique<Player>();
     pressureBar = std::make_unique<PressureBar>();
@@ -65,12 +61,12 @@ void GameManager::HandleGameMenu() {
     Color quitBtnColor = (currentMainMenuOption == SelectQuit) ? GOLD : BLACK;
 
     const char *playBtnStr = "Play";
-    int playBtnWidth = MeasureText(playBtnStr, FONTDEFAULT);
-    DrawText(playBtnStr, GetScreenWidth() / 2 - playBtnWidth, GetScreenHeight() / 2 - 100, FONTDEFAULT, playBtnColor);
+    int playBtnWidth = MeasureText(playBtnStr, 36);
+    DrawText(playBtnStr, GetScreenWidth() / 2 - playBtnWidth, GetScreenHeight() / 2 - 100, 36, playBtnColor);
 
     const char *quitBtnStr = "Quit";
-    int quitBtnWidth = MeasureText(quitBtnStr, FONTDEFAULT);
-    DrawText(quitBtnStr, GetScreenWidth() / 2 - quitBtnWidth, GetScreenHeight() / 2 + 100, FONTDEFAULT, quitBtnColor);
+    int quitBtnWidth = MeasureText(quitBtnStr, 36);
+    DrawText(quitBtnStr, GetScreenWidth() / 2 - quitBtnWidth, GetScreenHeight() / 2 + 100, 36, quitBtnColor);
 }
 
 void GameManager::HandleGameRun() {

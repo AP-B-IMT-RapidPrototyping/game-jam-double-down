@@ -1,4 +1,3 @@
-#include <iostream>
 #include <memory>
 
 #include "GameManager.h"
@@ -15,8 +14,6 @@ GameManager::GameState GameManager::currentGameState = GameManager::GameMenu;
 GameManager::MainMenuOptions GameManager::currentMainMenuOption = GameManager::SelectPlay;
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Goin' Down");
     SetTargetFPS(FPS);
 

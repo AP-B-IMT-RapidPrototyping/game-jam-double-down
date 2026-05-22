@@ -10,7 +10,7 @@
 
 
 void ScoreManager::DrawScore() {
-    DrawText(std::to_string(score).c_str(), 50, 50, 42, WHITE);
+    DrawText(std::to_string(score).c_str(), GetScreenWidth() / 2, 50, 42, WHITE);
 }
 
 

@@ -10,10 +10,15 @@ Player::Player() {
     //Image playerImg = LoadImage("../assets/Player.png");
     //playerTexture = LoadTextureFromImage(playerImg);
     //UnloadImage(playerImg);
+
+    Image healthImg = LoadImage("../assets/health.png");
+    healthTexture = LoadTextureFromImage(healthImg);
+    UnloadImage(healthImg);
 }
 
 Player::~Player() {
     //UnloadTexture(playerTexture);
+    UnloadTexture(healthTexture);
 }
 
 
@@ -29,13 +34,13 @@ void Player::DrawHitbox() {
 
 void Player::DrawHealth() {
     if (health >= 1) {
-        DrawRectangle(20, 20, 30, 30, PINK);
+        DrawTexture(healthTexture, 20, 50, WHITE);
     }
     if (health >= 2) {
-        DrawRectangle(70, 20, 30, 30, PINK);
+        DrawTexture(healthTexture, 100, 50, WHITE);
     }
     if (health >= 3) {
-        DrawRectangle(120, 20, 30, 30, PINK);
+        DrawTexture(healthTexture, 180, 50, WHITE);
     }
 }
 
@@ -99,5 +104,3 @@ void Player::ResetHealth() {
 int Player::GetHealth() {
     return health;
 }
-
-

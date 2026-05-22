@@ -9,7 +9,7 @@ class GameManager {
 private:
 
 public:
-    // Not So Beloved Constructor
+    // Initializer
     static void Init();
 
 
