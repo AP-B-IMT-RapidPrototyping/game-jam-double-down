@@ -40,6 +40,10 @@ public:
 
     void DrawHitbox();
 
+    void DrawHealth();
+
+    int GetHealth();
+
 
     // Collision
     Rectangle GetCollision() const;

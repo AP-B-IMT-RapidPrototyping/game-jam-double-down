@@ -10,6 +10,7 @@
 
 #include "Bubble.h"
 #include "Enemy.h"
+#include "ExplodingEnemy.h"
 #include "PressureBar.h"
 #include "raylib.h"
 #include  "Player.h"
@@ -19,6 +20,8 @@
 
 //Ptrs
 std::vector<std::unique_ptr<Bubble> > bubbles;
+std::vector<std::unique_ptr<Enemy> > enemies;
+std::vector<std::unique_ptr<ExplodingEnemy> > explodingEnemies;
 std::unique_ptr<Player> player;
 std::unique_ptr<PressureBar> pressureBar;
 
@@ -59,6 +62,10 @@ void GameManager::HandleGameRun() {
 
     //manage bubbles
     ManageBubbles();
+
+    //manage enemies
+    ManageEnemies();
+    ManageExplodingEnemies();
 
     //draw pressure bar
     pressureBar->Draw();
@@ -107,6 +114,34 @@ void GameManager::ManageBubbles() {
     });
 }
 
+void GameManager::ManageEnemies() {
+    for (unsigned int i = 0; i < enemies.size(); i++) {
+        enemies[i]->Update();
+        enemies[i]->Draw();
+        enemies[i]->toDelete = CheckOffScreen(enemies[i]->GetPos(), enemies[i]->GetSize());
+        CheckEnemyCollision(i);
+    }
+
+    //check if delete
+    std::erase_if(enemies, [](const std::unique_ptr<Enemy> &enemy) {
+        return enemy->toDelete;
+    });
+}
+
+void GameManager::ManageExplodingEnemies() {
+    for (unsigned int i = 0; i < explodingEnemies.size(); i++) {
+        explodingEnemies[i]->Update();
+        explodingEnemies[i]->Draw();
+        explodingEnemies[i]->toDelete = CheckOffScreen(explodingEnemies[i]->GetPos(), explodingEnemies[i]->GetSize());
+        CheckExplodingEnemyCollision(i);
+    }
+
+    //check if delete
+    std::erase_if(explodingEnemies, [](const std::unique_ptr<ExplodingEnemy> &enemy) {
+        return enemy->toDelete;
+    });
+}
+
 void GameManager::UpdatePressure() {
     pressureCounter++;
     if (pressureCounter > 100) {
@@ -126,6 +161,7 @@ void GameManager::SpawnEntity() {
         spawnCounter = 0;
         //spawn bubble
         bubbles.emplace_back(std::make_unique<Bubble>());
+        explodingEnemies.emplace_back(std::make_unique<ExplodingEnemy>());
     }
 }
 
@@ -149,6 +185,40 @@ void GameManager::CheckBubbleCollision(int i) {
         bubbles[i]->toDelete = true;
         pressureBar->ChangePressure(-20);
     }
+}
 
-    // Enemy Collision
+// Enemy Collision
+void GameManager::CheckEnemyCollision(int i) {
+    // Check collision with Player
+    if (CheckCollisionRecs(enemies[i]->GetCollision(), player->GetCollision())) {
+        enemies[i]->toDelete = true;
+        player->TakeDamage(enemies[i]->GetDamage());
+
+
+        if (player->GetHealth() <= 0) {
+            currentGameState = GameDead;
+        }
+    }
+}
+
+// Exploding enemy Collision
+void GameManager::CheckExplodingEnemyCollision(int i) {
+    // Check collision with Player
+
+    //check explosion state
+    if (explodingEnemies[i]->GetExplosionState() == -1) { //enemy not exploding
+        //check if the player collides with inner collision shape
+        if (CheckCollisionRecs(explodingEnemies[i]->GetInnerCollision(), player->GetCollision())) {
+            //if player collides, start exploding
+            explodingEnemies[i]->isExploding = true;
+        }
+    } else if (explodingEnemies[i]->GetExplosionState() == 1) { //enemy exploded
+        //check if the player collides with outer collision shape
+        if (CheckCollisionRecs(explodingEnemies[i]->GetOuterCollision(), player->GetCollision())) {
+            //if player collides, player takes damage
+            player->TakeDamage(2);
+        }
+
+        explodingEnemies[i]->toDelete = true;
+    }
 }

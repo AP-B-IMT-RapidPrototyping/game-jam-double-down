@@ -33,17 +33,17 @@ int main() {
             case GameManager::GameMenu:
                 GameManager::HandleGameMenu();
                 GameManager::HandleMenuInput();
-                DrawText("MENU", 50, 50, 42, RED);
+                //DrawText("MENU", 50, 50, 42, RED);
                 break;
 
             case GameManager::GameRun:
                 GameManager::HandleGameRun();
-                DrawText("RUN", 50, 50, 42, RED);
+                //DrawText("RUN", 50, 50, 42, RED);
                 break;
 
             case GameManager::GameDead:
                 GameManager::HandleGameDead();
-                DrawText("DEAD", 50, 50, 42, RED);
+                //DrawText("DEAD", 50, 50, 42, RED);
                 break;
         }
 

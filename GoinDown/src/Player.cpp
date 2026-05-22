@@ -27,6 +27,18 @@ void Player::DrawHitbox() {
     DrawRectangle(position.x, position.y + positionYOffset, size.x, size.y, GOLD);
 }
 
+void Player::DrawHealth() {
+    if (health >= 1) {
+        DrawRectangle(20, 20, 30, 30, PINK);
+    }
+    if (health >= 2) {
+        DrawRectangle(70, 20, 30, 30, PINK);
+    }
+    if (health >= 3) {
+        DrawRectangle(120, 20, 30, 30, PINK);
+    }
+}
+
 
 // Collision
 Rectangle Player::GetCollision() const {
@@ -68,7 +80,7 @@ void Player::HandleMoveInput() {
 void Player::Run() {
     // Collision
     DrawHitbox();
-
+    DrawHealth();
 
     // Update
     HandleMoveInput();
@@ -78,4 +90,8 @@ void Player::Run() {
 // Takers?
 void Player::TakeDamage(int amount) {
     health -= amount;
+}
+
+int Player::GetHealth() {
+    return health;
 }
