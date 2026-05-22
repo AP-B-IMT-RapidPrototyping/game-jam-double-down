@@ -15,6 +15,7 @@
 #include "PressureBar.h"
 #include "raylib.h"
 #include  "Player.h"
+#include "FloatingEntity.h"
 
 #define FONTHEADER 42
 #define FONTDEFAULT 36
@@ -40,6 +41,12 @@ void GameManager::Init() {
 int spawnCounter = 0;
 int bubbleSpawnCounter = 0;
 int pressureCounter = 0;
+int difficultyCounter = 0;
+int enemySpawnTime = 100;
+int endCounter = 0;
+
+
+bool isGoingDown = true;
 
 // Handle Game States
 void GameManager::HandleGameMenu() {
@@ -71,6 +78,21 @@ void GameManager::HandleGameRun() {
 
     //draw pressure bar
     pressureBar->Draw();
+
+    if (IsKeyPressed(KEY_SPACE)) {
+        isGoingDown = false;
+        for (unsigned int i = 0; i < enemies.size(); i++) {
+            enemies[i]->velocity = 8;
+        }
+        for (unsigned int i = 0; i < explodingEnemies.size(); i++) {
+            explodingEnemies[i]->velocity = 8;
+        }
+
+        for (unsigned int i = 0; i < bubbles.size(); i++) {
+            bubbles[i]->velocity = 8;
+        }
+
+    }
 }
 
 void GameManager::HandleGameDead() {
@@ -98,6 +120,7 @@ void GameManager::HandleMenuInput() {
         if (currentMainMenuOption == SelectQuit) {
             isGameRunning = false;
         }
+
     }
 }
 
@@ -159,21 +182,38 @@ void GameManager::UpdatePressure() {
 //SPAWNING
 void GameManager::SpawnEntity() {
     spawnCounter++;
-    if (spawnCounter > 75) {
+    if (spawnCounter > enemySpawnTime) {
         spawnCounter = 0;
 
         int entityToSpawn = GetRandomValue(1,3);
         if (entityToSpawn == 1 || entityToSpawn == 2) {
-            enemies.emplace_back(std::make_unique<Enemy>());
+            if (isGoingDown) {
+                enemies.emplace_back(std::make_unique<Enemy>(true, -5));
+            } else {
+                enemies.emplace_back(std::make_unique<Enemy>(false, 8));
+            }
         } else {
-            explodingEnemies.emplace_back(std::make_unique<ExplodingEnemy>());
+            if (isGoingDown) {
+                explodingEnemies.emplace_back(std::make_unique<ExplodingEnemy>(true, -5));
+            } else {
+                explodingEnemies.emplace_back(std::make_unique<ExplodingEnemy>(false, 8));
+            }
         }
     }
 
-    bubbleSpawnCounter++;
-    if (bubbleSpawnCounter > 200) {
-        bubbleSpawnCounter = 0;
-        bubbles.emplace_back(std::make_unique<Bubble>());
+    if (isGoingDown) {
+        bubbleSpawnCounter++;
+        if (bubbleSpawnCounter > 200) {
+            bubbleSpawnCounter = 0;
+            bubbles.emplace_back(std::make_unique<Bubble>(true, -5));
+        }
+    }
+
+
+    difficultyCounter++;
+    if (difficultyCounter > 500) {
+        difficultyCounter = 0;
+        enemySpawnTime -= 10;
     }
 }
 

@@ -16,6 +16,9 @@ public:
     bool isExploding = false;
     bool exploded = false;
 
+    ExplodingEnemy(bool up, float vel);
+    ~ExplodingEnemy();
+
     void Update() override;
 
     int GetExplosionState();

@@ -4,6 +4,10 @@
 
 #include "ExplodingEnemy.h"
 
+ExplodingEnemy::ExplodingEnemy(bool up, float vel): Enemy(up, vel) {
+
+}
+
 void ExplodingEnemy::Update() {
     position.y += velocity;
 
@@ -37,4 +41,8 @@ Rectangle ExplodingEnemy::GetOuterCollision() {
     Rectangle rec = Rectangle(position.x - outerMargin, position.y - outerMargin, outerCollisionSize.x, outerCollisionSize.y);
     DrawRectangleLinesEx(rec, 5, RED);
     return rec;
+}
+
+ExplodingEnemy::~ExplodingEnemy() {
+
 }
