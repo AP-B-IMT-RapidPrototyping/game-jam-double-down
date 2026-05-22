@@ -10,12 +10,20 @@
 #include "Bubble.h"
 #include "Enemy.h"
 #include "raylib.h"
+#include  "Player.h"
 
 #define FONTHEADER 42
 #define FONTDEFAULT 36
 
 //Ptrs
 std::vector<std::unique_ptr<Bubble> > bubbles;
+std::unique_ptr<Player> player;
+
+
+// Init
+void GameManager::Init() {
+    player = std::make_unique<Player>();
+}
 
 
 // Handle Game States
@@ -34,6 +42,7 @@ void GameManager::HandleGameMenu() {
 
 void GameManager::HandleGameRun() {
     //update
+    player->Run();
 
     //collision
 

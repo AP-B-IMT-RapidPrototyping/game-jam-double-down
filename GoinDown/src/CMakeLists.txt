@@ -18,7 +18,9 @@ add_library(srclib
         Bubble.cpp
         Bubble.h
         Enemy.cpp
-        Enemy.h)
+        Enemy.h
+        Player.cpp
+        Player.h)
 
 
 target_include_directories(srclib PUBLIC .)

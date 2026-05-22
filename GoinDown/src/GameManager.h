@@ -9,6 +9,10 @@ private:
 
 
 public:
+    // Not So Beloved Constructor
+    static void Init();
+
+
     // STATES
     // Game State
     static bool isGameRunning;

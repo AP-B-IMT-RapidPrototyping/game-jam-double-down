@@ -19,6 +19,10 @@ int main() {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Goin' Down");
     SetTargetFPS(FPS);
 
+
+    GameManager::Init();
+
+
     while (!WindowShouldClose() && GameManager::isGameRunning) {
         BeginDrawing();
         ClearBackground(DARKBLUE); //later donkerder en donkerder??
