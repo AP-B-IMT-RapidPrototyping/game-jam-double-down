@@ -4,10 +4,18 @@
 
 #include "GameManager.h"
 
+#include <memory>
+#include <vector>
+
+#include "Bubble.h"
+#include "Enemy.h"
 #include "raylib.h"
 
 #define FONTHEADER 42
 #define FONTDEFAULT 36
+
+//Ptrs
+std::vector<std::unique_ptr<Bubble> > bubbles;
 
 
 // Handle Game States
@@ -25,6 +33,11 @@ void GameManager::HandleGameMenu() {
 }
 
 void GameManager::HandleGameRun() {
+    //update
+
+    //collision
+
+    //draw
 }
 
 void GameManager::HandleGameDead() {

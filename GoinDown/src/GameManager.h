@@ -43,5 +43,7 @@ public:
 
 
     // COLLISION CHECKS
+    // SPAWING
+    static void SpawnEntity();
     static void CheckFloatingEntityCollision();
 };

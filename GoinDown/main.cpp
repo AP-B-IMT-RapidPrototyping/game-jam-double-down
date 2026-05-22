@@ -21,7 +21,7 @@ int main() {
 
     while (!WindowShouldClose() && GameManager::isGameRunning) {
         BeginDrawing();
-        ClearBackground(DARKBLUE);
+        ClearBackground(DARKBLUE); //later donkerder en donkerder??
 
         // GAME STATE MACHINE
         switch (GameManager::currentGameState) {
