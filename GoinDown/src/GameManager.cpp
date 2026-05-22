@@ -45,6 +45,7 @@ int endCounter = 0;
 
 
 bool isGoingDown = true;
+bool won = false;
 
 // Handle Game States
 void GameManager::HandleGameMenu() {
@@ -113,8 +114,18 @@ void GameManager::HandleGameDead() {
     scoreManager->ResetScore();
     player->ResetHealth();
 
+    isGoingDown = true;
+    endCounter = 0;
+
     DrawText("Score: ", 50, 50, 42, WHITE);
     DrawText(std::to_string(scoreManager->GetHighscore()).c_str(), 300, 50, 42, WHITE);
+
+    if (won) {
+        DrawText("You won!", GetScreenWidth() / 2 - 200, GetScreenHeight() - 500, 42, WHITE);
+    } else {
+        DrawText("You lost!", GetScreenWidth() / 2 - 200, GetScreenHeight() - 500, 42, WHITE);
+    }
+
 
 
     DrawText("Space to retry!", GetScreenWidth() / 2 - 200, GetScreenHeight() - 150, 42, WHITE);
@@ -197,6 +208,7 @@ void GameManager::UpdatePressure() {
         pressureCounter = 0;
 
         if (pressureBar->GetPressure() > 190) {
+            EraseAllEntities();
             currentGameState = GameDead;
         }
     }
@@ -271,6 +283,7 @@ void GameManager::CheckEnemyCollision(int i) {
 
 
         if (player->GetHealth() <= 0) {
+            EraseAllEntities();
             currentGameState = GameDead;
         }
     }
@@ -295,6 +308,7 @@ void GameManager::CheckExplodingEnemyCollision(int i) {
             //if player collides, player takes damage
             player->TakeDamage(2);
             if (player->GetHealth() <= 0) {
+                EraseAllEntities();
                 currentGameState = GameDead;
             }
         }
@@ -308,7 +322,27 @@ void GameManager::EndTimerUpdate() {
         endCounter++;
         if (endCounter > 300) {
             scoreManager->UpdateHighscoreToFile();
+            won = true;
+            EraseAllEntities();
             currentGameState = GameDead;
         }
     }
+}
+
+void GameManager::EraseAllEntities() {
+
+    //also reset pressure
+    pressureBar->ResetPressure();
+
+    std::erase_if(bubbles, [](const std::unique_ptr<Bubble> &bubble) {
+        return true;
+    });
+
+    std::erase_if(enemies, [](const std::unique_ptr<Enemy> &enemy) {
+        return true;
+    });
+
+    std::erase_if(explodingEnemies, [](const std::unique_ptr<ExplodingEnemy> &enemy) {
+        return true;
+    });
 }

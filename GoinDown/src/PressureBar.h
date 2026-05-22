@@ -14,6 +14,7 @@ public:
     void Draw();
     void ChangePressure(int amount);
     int GetPressure();
+    void ResetPressure();
 };
 
 

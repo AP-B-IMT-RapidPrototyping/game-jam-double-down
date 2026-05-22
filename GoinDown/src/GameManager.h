@@ -68,4 +68,6 @@ public:
 
 
     static void EndTimerUpdate();
+
+    static void EraseAllEntities();
 };

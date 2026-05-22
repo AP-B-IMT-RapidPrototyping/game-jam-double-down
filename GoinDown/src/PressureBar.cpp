@@ -23,6 +23,8 @@ void PressureBar::Draw() {
     //Draw outline
     Rectangle rec = Rectangle(pos.x, pos.y, size.x, size.y);
     DrawRectangleLinesEx(rec, 5, WHITE);
+
+    DrawText("pressure", pos.x, pos.y + size.y + 5, 36, WHITE);
 }
 
 void PressureBar::ChangePressure(int amount) {
@@ -31,4 +33,8 @@ void PressureBar::ChangePressure(int amount) {
 
 int PressureBar::GetPressure() {
     return pressure;
+}
+
+void PressureBar::ResetPressure() {
+    pressure = 0;
 }
