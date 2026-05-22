@@ -13,7 +13,7 @@
 // Handle Game States
 void GameManager::HandleGameMenu() {
     Color playBtnColor = (currentGameState == SelectPlay) ? GOLD : BLACK;
-    Color quitBtnColor = (currentGameState == SelectPlay) ? GOLD : BLACK;
+    Color quitBtnColor = (currentGameState == SelectQuit) ? GOLD : BLACK;
 
     const char *playBtnStr = "Play";
     float playBtnWidth = MeasureText(playBtnStr, FONTDEFAULT);
@@ -53,4 +53,13 @@ void GameManager::HandleMenuInput() {
             isGameRunning = false;
         }
     }
+}
+
+
+// Handle Collision
+void GameManager::CheckFloatingEntityCollision() {
+    // Check collision with Deadzones
+
+
+    // Check collision with Player
 }

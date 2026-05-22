@@ -43,5 +43,5 @@ public:
 
 
     // COLLISION CHECKS
-    // ...
+    static void CheckFloatingEntityCollision();
 };
