@@ -20,9 +20,8 @@ private:
 
     float hitboxOffset = 10; // Make hitbox smaller than player (higher = easier)
 
-    bool isMoving = false;
     float moveAcceleration = 0.5;
-    float deceleration = 1;
+    float deceleration = 0.2;
     float moveMaxSpeed = 5;
     float velocity = 0;
 
