@@ -37,21 +37,30 @@ Rectangle Player::GetCollision() const {
 
 // Input
 void Player::HandleMoveInput() {
-    if (((IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_Q)) && position.x >= 0)) {
-        velocity -= moveAcceleration;
+    if (IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_Q)) {
+        velocity += -moveAcceleration;
     }
 
     // plz use texture.width instead of size.x
-    if (((IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D)) && position.x + size.x <= (float) GetScreenWidth()) ) {
+    if (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D)) {
         velocity += moveAcceleration;
     }
 
-    /*if (velocity > 0) {
+    if (position.x < 0) {
+        position.x = 0;
+        velocity = 0;
+    }
+    if (position.x + size.x > (float) GetScreenWidth()) {
+        position.x = (float) GetScreenWidth() - size.x;
+        velocity = 0;
+    }
+
+    if (velocity > 0) {
         velocity -= deceleration;
     }
     if (velocity < 0) {
         velocity += deceleration;
-    }*/
+    }
 
     position.x += velocity;
 }
