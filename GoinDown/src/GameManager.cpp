@@ -58,10 +58,11 @@ void GameManager::HandleGameMenu() {
     DrawText("Previous Highscore: ", 50, 50, 42, WHITE);
     DrawText(std::to_string(scoreManager->GetHighscore()).c_str(), 500, 50, 42, WHITE);
 
+    DrawText("Use arrow keys to navigate menu", GetScreenWidth() / 2 - 200, GetScreenHeight() / 2 - 150, 42, WHITE);
+    DrawText("Enter to select", GetScreenWidth() / 2 - 200, GetScreenHeight() / 2 - 200, 42, WHITE);
+
     Color playBtnColor = (currentMainMenuOption == SelectPlay) ? GOLD : BLACK;
     Color quitBtnColor = (currentMainMenuOption == SelectQuit) ? GOLD : BLACK;
-
-    DrawText("Enter to select", GetScreenWidth() / 2 - 200, GetScreenHeight() / 2 - 200, 42, WHITE);
 
     const char *playBtnStr = "Play";
     int playBtnWidth = MeasureText(playBtnStr, 36);
@@ -127,7 +128,6 @@ void GameManager::HandleGameDead() {
     } else {
         DrawText("You lost!", GetScreenWidth() / 2 - 200, GetScreenHeight() - 500, 42, WHITE);
     }
-
 
 
     DrawText("Space to retry!", GetScreenWidth() / 2 - 200, GetScreenHeight() - 150, 42, WHITE);
@@ -332,7 +332,6 @@ void GameManager::EndTimerUpdate() {
 }
 
 void GameManager::EraseAllEntities() {
-
     //also reset pressure
     pressureBar->ResetPressure();
 
