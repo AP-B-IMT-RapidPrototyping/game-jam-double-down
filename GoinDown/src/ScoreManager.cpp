@@ -18,6 +18,10 @@ int ScoreManager::GetHighscore() {
     return highscore;
 }
 
+int ScoreManager::GetScore() {
+    return score;
+}
+
 
 void ScoreManager::UpdateScore() {
     scoreFrameCounter++;

@@ -114,6 +114,10 @@ void GameManager::HandleGameDead() {
     scoreManager->ResetScoreAndUpdateHighscore();
     player->ResetHealth();
 
+    DrawText("Score: ", 50, 50, 42, WHITE);
+    DrawText(std::to_string(scoreManager->GetHighscore()).c_str(), 300, 50, 42, WHITE);
+
+
     DrawText("Space to retry!", GetScreenWidth() / 2 - 200, GetScreenHeight() - 150, 42, WHITE);
     if (IsKeyPressed(KEY_SPACE)) {
         currentGameState = GameRun;

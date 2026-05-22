@@ -24,6 +24,8 @@ public:
 
     int GetHighscore();
 
+    int GetScore();
+
     void UpdateScore();
 
     void UpdateHighscoreToFile();
