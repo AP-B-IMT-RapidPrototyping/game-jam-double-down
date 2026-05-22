@@ -20,15 +20,16 @@
 //Ptrs
 std::vector<std::unique_ptr<Bubble> > bubbles;
 std::unique_ptr<Player> player;
+std::unique_ptr<PressureBar> pressureBar;
 
 
 // Init
 void GameManager::Init() {
     player = std::make_unique<Player>();
+    pressureBar = std::make_unique<PressureBar>();
 }
 //PTRS
-std::unique_ptr<PressureBar> pressureBar = std::make_unique<PressureBar>();
-std::vector<std::unique_ptr<Bubble>> bubbles;
+
 
 
 //COUNTER
