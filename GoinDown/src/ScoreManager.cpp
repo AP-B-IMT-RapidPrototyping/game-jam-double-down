@@ -9,16 +9,16 @@
 #include "raylib.h"
 
 
-void ScoreManager::DrawScore() {
+void ScoreManager::DrawScore() const {
     DrawText(std::to_string(score).c_str(), GetScreenWidth() / 2, 50, 42, WHITE);
 }
 
 
-int ScoreManager::GetHighscore() {
+int ScoreManager::GetHighscore() const {
     return highscore;
 }
 
-int ScoreManager::GetScore() {
+int ScoreManager::GetScore() const {
     return score;
 }
 
@@ -31,6 +31,7 @@ void ScoreManager::UpdateScore() {
     }
 }
 
+// Load the highscore from the file to the game
 void ScoreManager::LoadHighscoreFromFile() {
     std::ifstream iFile("highscore.txt");
     std::string line;
@@ -44,6 +45,7 @@ void ScoreManager::LoadHighscoreFromFile() {
     }
 }
 
+// Update the highscore to the file
 void ScoreManager::UpdateHighscoreToFile() {
     if (!updatedHighscoreToFile && score > highscore) {
         std::ofstream oFile("highscore.txt");

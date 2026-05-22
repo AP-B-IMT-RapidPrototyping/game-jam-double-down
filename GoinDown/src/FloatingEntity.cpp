@@ -18,28 +18,25 @@ FloatingEntity::FloatingEntity(bool up, float vel) {
 }
 
 void FloatingEntity::Draw() {
-    //draw temp rectangle
+    // draw temp rectangle
     DrawRectangle(position.x, position.y, 50, 50, WHITE);
 }
 
 void FloatingEntity::Update() {
-    //basic position
+    // basic position
     position.y += velocity;
 }
 
-Vector2 FloatingEntity::GetPos() {
+Vector2 FloatingEntity::GetPos() const {
     return position;
 }
 
-Vector2 FloatingEntity::GetSize() {
+Vector2 FloatingEntity::GetSize() const {
     return size;
 }
 
-Rectangle FloatingEntity::GetCollision() {
+Rectangle FloatingEntity::GetCollision() const {
     return Rectangle(position.x, position.y, size.x, size.y);
 }
 
 
-FloatingEntity::~FloatingEntity() {
-
-}

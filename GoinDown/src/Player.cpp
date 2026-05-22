@@ -27,12 +27,12 @@ void Player::DrawPlayer() {
     //DrawTexture(playerTexture, position.x, position.y + positionYOffset, WHITE);
 }
 
-void Player::DrawHitbox() {
+void Player::DrawHitbox() const {
     // plz use texture.width and height instead of size.x and .y
     DrawRectangle(position.x, position.y + positionYOffset, size.x, size.y, GOLD);
 }
 
-void Player::DrawHealth() {
+void Player::DrawHealth() const {
     if (health >= 1) {
         DrawTexture(healthTexture, 20, 50, WHITE);
     }
@@ -101,6 +101,6 @@ void Player::ResetHealth() {
     health = maxHealth;
 }
 
-int Player::GetHealth() {
+int Player::GetHealth() const {
     return health;
 }

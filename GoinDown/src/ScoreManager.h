@@ -19,12 +19,12 @@ public:
     bool updatedHighscoreFromFile = false;
     bool updatedHighscoreToFile = false;
 
-    void DrawScore();
+    void DrawScore() const;
 
 
-    int GetHighscore();
+    int GetHighscore() const;
 
-    int GetScore();
+    int GetScore() const;
 
     void UpdateScore();
 

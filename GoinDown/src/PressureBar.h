@@ -9,11 +9,10 @@ private:
     int pressure = 0;
 public:
     PressureBar();
-    ~PressureBar();
 
-    void Draw();
+    void Draw() const;
     void ChangePressure(int amount);
-    int GetPressure();
+    int GetPressure() const;
     void ResetPressure();
 };
 

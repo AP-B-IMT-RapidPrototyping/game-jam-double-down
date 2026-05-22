@@ -10,10 +10,7 @@ void Enemy::Draw() {
     DrawRectangle(position.x, position.y, 50, 50, RED);
 }
 
-int Enemy::GetDamage() {
+int Enemy::GetDamage() const {
     return dmg;
 }
 
-Enemy::~Enemy() {
-
-}

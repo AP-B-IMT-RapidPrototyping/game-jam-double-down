@@ -29,6 +29,9 @@ private:
     int maxHealth = 3;
     int health = maxHealth;
 
+    // Graphics
+    void DrawPlayer();
+
 public:
     // Constructors
     Player();
@@ -37,13 +40,12 @@ public:
 
 
     // Graphics
-    void DrawPlayer();
 
-    void DrawHitbox();
+    void DrawHitbox() const;
 
-    void DrawHealth();
+    void DrawHealth() const;
 
-    int GetHealth();
+    int GetHealth() const;
 
 
     // Collision

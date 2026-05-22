@@ -10,11 +10,7 @@ PressureBar::PressureBar() {
     pos = {(float)GetScreenWidth() - size.x - 40, 50};
 }
 
-PressureBar::~PressureBar() {
-
-}
-
-void PressureBar::Draw() {
+void PressureBar::Draw() const {
     //Draw background
     DrawRectangle(pos.x, pos.y, size.x, size.y, BLACK);
 
@@ -31,7 +27,7 @@ void PressureBar::ChangePressure(int amount) {
     pressure += amount;
 }
 
-int PressureBar::GetPressure() {
+int PressureBar::GetPressure() const {
     return pressure;
 }
 

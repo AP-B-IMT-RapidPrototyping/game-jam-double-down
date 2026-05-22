@@ -17,13 +17,12 @@ public:
     bool exploded = false;
 
     ExplodingEnemy(bool up, float vel);
-    ~ExplodingEnemy();
 
     void Update() override;
 
-    int GetExplosionState();
-    Rectangle GetInnerCollision();
-    Rectangle GetOuterCollision();
+    int GetExplosionState() const;
+    Rectangle GetInnerCollision() const;
+    Rectangle GetOuterCollision() const;
 };
 
 

@@ -12,7 +12,7 @@
 #include "ExplodingEnemy.h"
 #include "PressureBar.h"
 #include "raylib.h"
-#include  "Player.h"
+#include "Player.h"
 #include "ScoreManager.h"
 #include "FloatingEntity.h"
 
@@ -32,10 +32,10 @@ void GameManager::Init() {
     scoreManager = std::make_unique<ScoreManager>();
 }
 
-//PTRS
+// PTRS
 
 
-//COUNTER
+// COUNTER
 int spawnCounter = 0;
 int bubbleSpawnCounter = 0;
 int pressureCounter = 0;
@@ -43,51 +43,63 @@ int difficultyCounter = 0;
 int enemySpawnTime = 100;
 int endCounter = 0;
 
-
 bool isGoingDown = true;
 bool won = false;
 
-// Handle Game States
+
+// HANDLE GAME STATES
+// GAME STATE = MENU
 void GameManager::HandleGameMenu() {
+    // Load highscore from highscore.txt
     if (!scoreManager->updatedHighscoreFromFile) {
         scoreManager->LoadHighscoreFromFile();
+
         scoreManager->updatedHighscoreFromFile = true;
         scoreManager->updatedHighscoreToFile = false;
     }
 
-    DrawText("Previous Highscore: ", 50, 50, 42, WHITE);
-    DrawText(std::to_string(scoreManager->GetHighscore()).c_str(), 500, 50, 42, WHITE);
+    // UI
+    // Show title
+    DrawText("Goin' Down!", GetScreenWidth() /2 - 150, 20, 52, GOLD);
 
-    DrawText("Use arrow keys to navigate menu", GetScreenWidth() / 2 - 200, GetScreenHeight() / 2 - 150, 42, WHITE);
-    DrawText("Enter to select", GetScreenWidth() / 2 - 200, GetScreenHeight() / 2 - 200, 42, WHITE);
+    // Show All time highscore
+    DrawText("All Time Highscore: ", 50, GetScreenHeight() - 80, 42, WHITE);
+    DrawText(std::to_string(scoreManager->GetHighscore()).c_str(), 460, GetScreenHeight() - 80, 42, WHITE);
 
+    // Show keybinds
+    DrawText("Enter to select", GetScreenWidth() / 2 - 200, GetScreenHeight() / 2 + 200, 42, WHITE);
+    DrawText("Use arrow keys to navigate menu", GetScreenWidth() / 2 - 400, GetScreenHeight() / 2 + 250, 42, WHITE);
+
+    // Manage button color
     Color playBtnColor = (currentMainMenuOption == SelectPlay) ? GOLD : BLACK;
     Color quitBtnColor = (currentMainMenuOption == SelectQuit) ? GOLD : BLACK;
 
+    // Show Menu buttons
     const char *playBtnStr = "Play";
-    int playBtnWidth = MeasureText(playBtnStr, 36);
-    DrawText(playBtnStr, GetScreenWidth() / 2 - playBtnWidth, GetScreenHeight() / 2 - 100, 36, playBtnColor);
+    int playBtnWidth = MeasureText(playBtnStr, 46);
+    DrawText(playBtnStr, GetScreenWidth() / 2 - playBtnWidth, GetScreenHeight() / 2 - 100, 46, playBtnColor);
 
     const char *quitBtnStr = "Quit";
-    int quitBtnWidth = MeasureText(quitBtnStr, 36);
-    DrawText(quitBtnStr, GetScreenWidth() / 2 - quitBtnWidth, GetScreenHeight() / 2 + 100, 36, quitBtnColor);
+    int quitBtnWidth = MeasureText(quitBtnStr, 46);
+    DrawText(quitBtnStr, GetScreenWidth() / 2 - quitBtnWidth, GetScreenHeight() / 2, 46, quitBtnColor);
 }
 
+// GAME STATE = RUNNING
 void GameManager::HandleGameRun() {
-    //update
+    // update
     player->Run();
-    //update counters
+    // update counters
     SpawnEntity();
     UpdatePressure();
 
-    //manage bubbles
+    // manage bubbles
     ManageBubbles();
 
-    //manage enemies
+    // manage enemies
     ManageEnemies();
     ManageExplodingEnemies();
 
-    //draw pressure bar
+    // draw pressure bar
     pressureBar->Draw();
 
     // Handle score
@@ -113,6 +125,7 @@ void GameManager::HandleGameRun() {
     DrawText("Space to go back up", GetScreenWidth() / 2 - 200, GetScreenHeight() - 50, 42, WHITE);
 }
 
+// GAME STATE = DEAD
 void GameManager::HandleGameDead() {
     scoreManager->ResetScore();
     player->ResetHealth();
@@ -136,7 +149,8 @@ void GameManager::HandleGameDead() {
     }
 }
 
-// Handle Menu
+// Handle Menu Input
+// DURING GAME STATE = MENU
 void GameManager::HandleMenuInput() {
     if (IsKeyPressed(KEY_DOWN)) {
         if (currentMainMenuOption == SelectPlay) {
@@ -266,7 +280,6 @@ bool GameManager::CheckOffScreen(Vector2 pos, Vector2 size) {
 
 
 // HANDLE COLLISIONS
-
 // Bubble Collision
 void GameManager::CheckBubbleCollision(int i) {
     // Check collision with Player
