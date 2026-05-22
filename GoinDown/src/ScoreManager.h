@@ -32,5 +32,5 @@ public:
 
     void LoadHighscoreFromFile();
 
-    void ResetScoreAndUpdateHighscore();
+    void ResetScore();
 };

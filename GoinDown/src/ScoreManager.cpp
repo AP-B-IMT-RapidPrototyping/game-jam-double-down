@@ -60,6 +60,6 @@ void ScoreManager::UpdateHighscoreToFile() {
     }
 }
 
-void ScoreManager::ResetScoreAndUpdateHighscore() {
+void ScoreManager::ResetScore() {
     score = 0;
 }

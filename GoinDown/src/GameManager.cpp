@@ -107,11 +107,12 @@ void GameManager::HandleGameRun() {
             bubbles[i]->velocity = 8;
         }
     }
+
+    EndTimerUpdate();
 }
 
 void GameManager::HandleGameDead() {
-    scoreManager->UpdateHighscoreToFile();
-    scoreManager->ResetScoreAndUpdateHighscore();
+    scoreManager->ResetScore();
     player->ResetHealth();
 
     DrawText("Score: ", 50, 50, 42, WHITE);
@@ -295,8 +296,21 @@ void GameManager::CheckExplodingEnemyCollision(int i) {
         if (CheckCollisionRecs(explodingEnemies[i]->GetOuterCollision(), player->GetCollision())) {
             //if player collides, player takes damage
             player->TakeDamage(2);
+            if (player->GetHealth() <= 0) {
+                currentGameState = GameDead;
+            }
         }
 
         explodingEnemies[i]->toDelete = true;
+    }
+}
+
+void GameManager::EndTimerUpdate() {
+    if (!isGoingDown) {
+        endCounter++;
+        if (endCounter > 300) {
+            scoreManager->UpdateHighscoreToFile();
+            currentGameState = GameDead;
+        }
     }
 }
